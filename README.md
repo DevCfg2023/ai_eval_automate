@@ -96,49 +96,65 @@ Every evaluation is stored in history.json. The DriftMonitor compares current sc
 
 3.Adversarial Testing
 The framework includes a "Red Teaming" suite in main.py that simulates prompt injection attacks to verify that guardrails cannot be bypassed by malicious users.
+
 ---
 
 ## CI/CD Automation
-The included .github/workflows/eval_pipeline.yml ensures that your model is evaluated on every push. If the Safety Score or Accuracy falls below your defined thresholds, the build is automatically blocked.
-
-This project is pre-configured with GitHub Actions. On every push to main:
-A virtual environment is provisioned.
-The llm_guard package is installed.
-pytest runs the security and accuracy test suite.
-If safety or performance benchmarks are not met, the build fails, ensuring only high-quality models reach production.
+- The included .github/workflows/eval_pipeline.yml ensures that your model is evaluated on every push. If the Safety Score or Accuracy falls below your defined thresholds, the build is automatically blocked.
+- This project is pre-configured with GitHub Actions. On every push to main:
+   A virtual environment is provisioned.
+   The llm_guard package is installed.
+   pytest runs the security and accuracy test suite.
+   If safety or performance benchmarks are not met, the build fails, ensuring only high-quality models reach production.
 ---
 
 ## Package Components
-<li>ProcessEvaluator: The main engine for batch evaluation.</li>
-<li>GuardrailEngine: Real-time safety filter.</li>
-<li>DriftMonitor: Tracks historical performance to detect "Model Decay."</li>
-<li>ToxicityMetric: Unbiased toxicity classifier based on Toxic-BERT.</li>
+- ProcessEvaluator: The main engine for batch evaluation.
+- GuardrailEngine: Real-time safety filter.
+- DriftMonitor: Tracks historical performance to detect "Model Decay."
+- ToxicityMetric: Unbiased toxicity classifier based on Toxic-BERT.
 
 ---
 
 ## Smart Model Selection
-This framework allows you to perform A/B Testing and Comparative Evaluation across different LLM providers. By running the same "Golden Dataset" through multiple models, you can generate a side-by-side comparison.
-Comparative Analysis Example
-You can use the ProcessEvaluator to compare two models:
-Metric	          Model A (GPT-4)	Model B (Llama-3)	Winner
-Accuracy          92%	            88%	                Model A
-Latency	          1.2s	            0.4s	            Model B
-Safety Score      0.98              0.95                Model A			
-Cost	          High	            Low	                Model B
+- This framework allows you to perform A/B Testing and Comparative Evaluation across different LLM providers. By running the same "Golden Dataset" through multiple models, you can generate a side-by-side comparison.
+- Comparative Analysis Example
+- You can use the ProcessEvaluator to compare two models:
 
-### How to use for Model Selection:
-Run the suite for each model candidate.
-Analyze the Dashboard: Use the "Metric Distribution" chart to see which model hits your specific performance thresholds.
-Optimize for ROI: Choose the model that provides the highest accuracy while staying within your latency and budget constraints.
+| Metric       | Model A (GPT-4) | Model B (Llama-3) | Winner   |
+|-------------|----------------|------------------|----------|
+| Accuracy    | 92%            | 88%              | Model A  |
+| Latency     | 1.2s           | 0.4s             | Model B  |
+| Safety Score| 0.98           | 0.95             | Model A  |
+| Cost        | High           | Low              | Model B  |
+
+---
+## How to use for Model Selection:
+- Run the suite for each model candidate.
+- Analyze the Dashboard: Use the "Metric Distribution" chart to see which model hits your specific performance thresholds.
+- Optimize for ROI: Choose the model that provides the highest accuracy while staying within your latency and budget constraints.
+#### Evaluation Metrics
+
+| Metric     | Purpose                                | Type        |
+|------------|----------------------------------------|------------|
+| Accuracy   | Measures correctness of responses      | Performance |
+| Precision  | % of correct predicted answers         | Performance |
+| Recall     | Coverage of relevant answers           | Performance |
+| F1 Score   | Balance between precision & recall     | Performance |
+| BLEU       | Text similarity (translation tasks)    | Language    |
+| ROUGE      | Summarization quality                  | Language    |
+| Perplexity | Language prediction confidence         | Language    |
+| Latency    | Response speed                         | System      |
+| Toxicity   | Harmful or biased content detection    | Safety      |
 
 ---
 
 ## Contributing
-Contributions are welcome! If you'd like to add new metrics (like ROUGE or BLEU) or improve the guardrail logic:
-<li>Fork the repo.</li>
-<li>Create your feature branch (git checkout -b feature/AmazingFeature).</li>
-<li>Commit your changes.</li>
-<li>Push to the branch.</li>
-<li>Open a Pull Request.</li>
+- Contributions are welcome! If you'd like to add new metrics (like ROUGE or BLEU) or improve the guardrail logic:
+  <li>Fork the repo.</li>
+  <li>Create your feature branch (git checkout -b feature/AmazingFeature).</li>
+  <li>Commit your changes.</li>
+  <li>Push to the branch.</li>
+  <li>Open a Pull Request.</li>
 
 ---
