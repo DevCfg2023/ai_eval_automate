@@ -1,11 +1,11 @@
 import time
 import pandas as pd
-from typing import List, Dict, Any, Protocol
-from dataclasses import dataclass
-from enum import Enum
+from typing import List
 
-from services.delete import AccuracyMetric
-from services.delete.metrics import BLEUMetric
+import json
+
+from src.llm_guard import AccuracyMetric
+from src.llm_guard.metrics import BLEUMetric, MetricStatus, EvaluationReport, LatencyMetric
 
 
 class ProcessEvaluator:
@@ -49,6 +49,27 @@ class ProcessEvaluator:
         print("\n--- 📊 FINAL EVALUATION DASHBOARD ---")
         print(df.to_string(index=False))
         print("--------------------------------------\n")
+
+
+class EvaluationEngine:
+    def __init__(self, history_path="data/history.json"):
+        self.evaluator = ProcessEvaluator()
+        self.history_path = history_path
+        self.history = []
+
+    def evaluate(self, predictions, references):
+        stats, alerts = self.evaluator.evaluate_batch(predictions, references)
+        self.history.append({
+            "predictions": predictions,
+            "references": references,
+            "stats": stats,
+            "alerts": alerts
+        })
+        # Save history for later harvesting
+        with open(self.history_path, "w") as f:
+            json.dump(self.history, f, indent=2)
+        print(f"[📦] Evaluation complete → {self.history_path}")
+        return stats, alerts
 
 
 # --- 5. Execution ---

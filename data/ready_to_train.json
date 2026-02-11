@@ -1,0 +1,14 @@
+[
+  {
+    "predictions": ["Paris", "Tokyo", "Berlin"],
+    "references": ["Paris", "Tokyo", "London"],
+    "stats": {
+      "accuracy": 0.6667,
+      "bleu": 0.72
+    },
+    "alerts": [
+      "❌ Accuracy below threshold for prediction 'Berlin'",
+      "✅ 'Paris' and 'Tokyo' passed"
+    ]
+  }
+]

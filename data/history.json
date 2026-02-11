@@ -1,0 +1,25 @@
+[
+  {
+    "predictions": ["Paris", "Tokyo", "Berlin"],
+    "references": ["Paris", "Tokyo", "London"],
+    "stats": {
+      "accuracy": 0.6667,
+      "bleu": 0.72
+    },
+    "alerts": [
+      "❌ Accuracy below threshold for prediction 'Berlin'",
+      "✅ 'Paris' and 'Tokyo' passed"
+    ]
+  },
+  {
+    "predictions": ["The quick brown fox jumps over the dog."],
+    "references": ["The quick brown fox jumps over the lazy dog."],
+    "stats": {
+      "accuracy": 0.9,
+      "bleu": 0.85
+    },
+    "alerts": [
+      "✅ Minor differences detected"
+    ]
+  }
+]

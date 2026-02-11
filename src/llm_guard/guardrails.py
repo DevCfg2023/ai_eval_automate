@@ -1,5 +1,7 @@
 import logging
 
+from src.llm_guard import ToxicityMetric
+
 
 class GuardrailEngine:
     def __init__(self, toxicity_threshold: float = 0.5):
@@ -52,3 +54,14 @@ class JailbreakTestSuite:
             })
 
         return results
+
+
+class GuardrailWrapper:
+    def __init__(self, threshold=0.4):
+        self.guard = GuardrailEngine(threshold=threshold)
+        self.log = []
+
+    def validate_input(self, text):
+        result = self.guard.validate(text)
+        self.log.append({"input": text, "result": result})
+        return result
