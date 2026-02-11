@@ -1,0 +1,6 @@
+pandas
+evaluate
+scikit-learn
+torch
+datasets
+pydantic
